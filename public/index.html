@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Molly .: a twitter client :.</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/main.css" />
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+    <script>
+    $(document).ready(function(){
+      if(!("WebSocket" in window)) {
+        alert("Sorry, the build of your browser does not support WebSockets. Please use latest Chrome or Webkit nightly");
+        return;
+      }
+
+      ws = new WebSocket("ws://localhost:8080/");
+      ws.onmessage = function(evt) {
+        //data = eval("(" + evt.data + ")");
+        var tweet = $(evt.data);
+        $('#tweets').prepend(tweet);
+        while($('#tweets div.tweet').size() > 19) {
+          $('#tweets div.tweet:last').remove();
+        }
+        tweet.slideDown(140);
+      };
+      ws.onclose = function() {
+        alert("socket closed");
+      };
+      ws.onopen = function() {
+        //alert("connected...");
+      };
+      // Send a tweet to the ws server
+      $('form').submit(function() {
+        ws.send(JSON.stringify({ type: 'update', message: $('#tweet_message').val() }));
+        return false;
+      });
+    });
+    </script>
+  </head>
+
+  <body>
+
+    <div id="header" class="container_8">
+      <h1>molly</h1>
+    </div>
+
+    <div id="content" class="container_8">
+      <div id="tweets"></div>
+    </div>
+
+    <div id="footer" class="container_8">
+      <div>
+        <!-- this should float at the bottom of the page as you scroll or somethin -->
+        <form action="#" method="POST" name="form">
+          <textarea cols="60" rows="2" id="tweet_message"></textarea>
+          <input type="submit" value="Tweet This" />
+        </form>
+      </div>
+    </div>
+
+  </body>
+</html>

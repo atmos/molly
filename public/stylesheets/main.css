@@ -1,0 +1,33 @@
+.tweet {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #000;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.thumb {
+}
+
+.thumb img {
+  border: 1px solid #000;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.thumb h3 {
+}
+
+.tweet_text {
+}
+
+.tweet_text p {
+}
+
+.tweet_meta {
+}
+
+.tweet_meta span {
+}
